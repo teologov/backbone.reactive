@@ -4,14 +4,16 @@
  * @date 2/5/15
  */
 
-
+/* global basePath */
 describe("Testing Backbone.Reactive Plugin", function() {
 
     "use strict";
 
-    it("Should fail!", function() {
+    it("Should load plugin as CommonJS module", function() {
 
-        assert.equal("1", "0", "Fixme");
+        var Reactive = require(basePath + "backbone.reactive");
+
+        assert.isFunction(Reactive, "Reactive plugin should be loaded");
 
     });
 
