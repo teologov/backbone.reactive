@@ -13,6 +13,16 @@
     "react",
     "backbone"
   ],
+  "dependencies": {
+    "react": "0.12.x",
+    "backbone": "1.1.x",
+    "underscore": "1.7.x"
+  },
+  "devDependencies": {
+    "mocha": "2.1.x",
+    "chai": "1.10.x",
+    "sinon": "1.12.x"
+  },
   "author": "Andrew Teologov <teologov.and@gmail.com>",
   "license": "MIT"
 }
