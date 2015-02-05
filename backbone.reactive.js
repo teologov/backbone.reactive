@@ -8,7 +8,7 @@
 
 (function(root, factory) {
     // AMD module
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === "function" && define.amd) {
         define(["underscore", "backbone", "react"], function(_, Backbone, React) {
             return factory(_, Backbone, React);
         });
