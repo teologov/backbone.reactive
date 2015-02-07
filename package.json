@@ -1,6 +1,6 @@
 {
   "name": "backbone.reactive",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Plugin for Backbone.js framework, which allows to combine powerful Backbone.js with React.js views.",
   "main": "backbone.reactive.js",
   "directories": {
