@@ -22,4 +22,7 @@ test-w:
         --slow 300 \
         --watch
 
+jsx:
+	./node_modules/.bin/jsx test/components/ test/build/
+
 .PHONY: test test-w

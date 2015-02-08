@@ -1,13 +1,14 @@
 {
   "name": "backbone.reactive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin for Backbone.js framework, which allows to combine powerful Backbone.js with React.js views.",
   "main": "backbone.reactive.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "jsx": "make jsx"
   },
   "keywords": [
     "react",
@@ -19,8 +20,10 @@
     "underscore": "1.7.x"
   },
   "devDependencies": {
-    "mocha": "2.1.x",
     "chai": "1.10.x",
+    "jsdom": "^3.1.0",
+    "mocha": "2.1.x",
+    "react-tools": "^0.12.2",
     "sinon": "1.12.x"
   },
   "author": "Andrew Teologov <teologov.and@gmail.com>",

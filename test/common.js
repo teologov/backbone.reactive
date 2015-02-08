@@ -9,3 +9,8 @@ global.chai = require('chai');
 global.expect = global.chai.expect;
 global.assert = global.chai.assert;
 global.basePath = "../../";
+
+var jsdom = require('jsdom');
+
+global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.window = document.parentWindow;

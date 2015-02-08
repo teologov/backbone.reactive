@@ -58,6 +58,10 @@
             binder: _.debounce
         };
 
+        /**
+         * Subscriber
+         * @param context
+         */
         this.subscribe = function(context) {
             var storage = this.getStorage(context.props);
 
@@ -71,7 +75,21 @@
                 }
             }.bind(context));
 
-            storage.on(this.updateOptions.events, callback);
+            storage.on(this.updateOptions.events, callback, context);
+        };
+
+        /**
+         * Unsubscriber
+         * @param context
+         */
+        this.unsubscribe = function(context) {
+            var storage = this.getStorage(context.props);
+
+            if (_.isUndefined(storage)) {
+                return;
+            }
+
+            storage.off(null, null, context);
         };
 
         this.getStorage = function(props) {
@@ -84,10 +102,15 @@
                 self.subscribe(this);
             },
             componentWillUnmount: function() {  // unsubscribe
-
+                self.unsubscribe(this);
             },
-            componentWillReceiveProps: function() { // new props were added
+            componentWillReceiveProps: function(nextProps) { // new props were added
+                if (self.getStorage(this.props) == self.getStorage(nextProps)) {
+                    return;
+                }
 
+                self.unsubscribe(this);
+                self.subscribe(nextProps);
             }
         }
     }
