@@ -30,7 +30,12 @@
     "use strict";
 
     var viewMixin = {
-        
+        getModel: function() {
+            return this.props.model;
+        },
+        getCollection: function() {
+            return this.props.collection;
+        }
     };
 
     /**
@@ -55,7 +60,7 @@
          */
         this.updateOptions = {
             events: updateOptions.events,
-            binder: _.debounce
+            binder: _.identity
         };
 
         /**

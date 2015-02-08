@@ -8,13 +8,9 @@ var Backbone = require("backbone"),
     _ = require("underscore"),
     jsdom = require('jsdom').jsdom,
     TestView = require('../../build/test-view'),
-    // Because we're not using "*.jsx" here, we need to wrap the component in a factory
-    // manually. See https://gist.github.com/sebmarkbage/ae327f2eda03bf165261
     Reactive = require("../../backbone.reactive");
 
-var TestFactory,
-    React,
-    TestUtils;
+var TestFactory, React, TestUtils;
 
 
 /* global basePath, describe */
@@ -102,26 +98,32 @@ describe("Testing Backbone.Reactive Plugin", function() {
 
     describe("Testing Backbone.Reactive Plugin View", function() {
 
-        var component, renderTarget, renderedComponent, inputComponent, inputElement;
+        var component, renderTarget, renderedComponent, inputComponent, element, model;
 
         beforeEach(function(done) {
 
             var html = "<!doctype html><html><body></body></html>";
 
             jsdom.env(html, function (err, window) {
+                // TODO: react should be loaded after jdom is initialised (!)
+                // temporary monkey patch to allow usage of jsdom
+                require('react/lib/ExecutionEnvironment').canUseDOM = true;
 
                 global.window = window;
                 global.document = global.window.document;
                 global.navigator = global.window.navigator;
 
+                model = new Backbone.Model({name: "myName"});
+
                 React = require('react/addons');
                 TestUtils = React.addons.TestUtils;
+                // Because we're not using "*.jsx" here, we need to wrap the component in a factory
+                // manually. See https://gist.github.com/sebmarkbage/ae327f2eda03bf165261
                 TestFactory = React.createFactory(TestView);
 
                 // create component
                 component = TestFactory({
-                    done: false,
-                    name: 'Write Tutorial'
+                    model: model
                 });
 
                 renderTarget = global.document.getElementsByTagName('body')[0];
@@ -132,11 +134,10 @@ describe("Testing Backbone.Reactive Plugin", function() {
                 // it throws an exception if not found
                 inputComponent = TestUtils.findRenderedDOMComponentWithTag(
                     renderedComponent,
-                    'input'
+                    'span'
                 );
 
-                inputElement = inputComponent.getDOMNode();
-
+                element = inputComponent.getDOMNode();
 
                 done(err);
             });
@@ -148,13 +149,22 @@ describe("Testing Backbone.Reactive Plugin", function() {
             renderTarget = null;
             renderedComponent = null;
             inputComponent = null;
-            inputElement = null;
+            element = null;
+            model = null;
 
         });
 
         it("Should render checkbox input", function() {
 
-            assert.isTrue(inputElement.getAttribute("type") === "checkbox", "Checkbox should be rendered");
+            assert.equal(element._localName, "span", "Span should be rendered");
+
+        });
+
+        it("Should update html on model change event", function() {
+
+            model.set("name", "Andrew");
+
+            assert.equal(element.textContent, "Andrew", "Model change should be reflected in the dom element");
 
         })
 

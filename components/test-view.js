@@ -7,15 +7,16 @@
 var Reactive = require("../backbone.reactive.js");
 var React = require("react");
 
+
 var view = new Reactive({
     render: function() {
         return (
-            <label>
-                <input type="checkbox" />
-                {this.props.name}
-            </label>
-            );
+            <div>
+                <span>{this.getModel().get('name')}</span>
+            </div>
+        );
     }
 });
+
 
 module.exports = view;
