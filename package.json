@@ -3,6 +3,10 @@
   "version": "0.0.5",
   "description": "Plugin for Backbone.js framework, which allows to combine powerful Backbone.js with React.js views.",
   "main": "backbone.reactive.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teologov/backbone.reactive"
+  },
   "directories": {
     "test": "test"
   },
