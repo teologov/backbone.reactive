@@ -30,7 +30,7 @@
     "use strict";
 
     var viewMixin = {
-        render: function() {}
+        
     };
 
     /**

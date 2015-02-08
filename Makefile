@@ -23,6 +23,6 @@ test-w:
         --watch
 
 jsx:
-	./node_modules/.bin/jsx test/components/ test/build/
+	./node_modules/.bin/jsx  --no-cache-dir components/ build/
 
-.PHONY: test test-w
+.PHONY: test test-w jsx
