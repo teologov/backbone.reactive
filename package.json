@@ -31,5 +31,9 @@
     "sinon": "1.12.x"
   },
   "author": "Andrew Teologov <teologov.and@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/teologov/backbone.reactive/issues"
+  },
+  "homepage": "https://github.com/teologov/backbone.reactive"
 }
