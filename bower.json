@@ -1,0 +1,29 @@
+{
+  "name": "backbone.reactive",
+  "main": "backbone.reactive.js",
+  "version": "0.0.5",
+  "homepage": "https://github.com/teologov/backbone.reactive",
+  "authors": [
+    "Andrew Teologov <teologov.and@gmail.com>"
+  ],
+  "description": "Plugin for Backbone.js framework, which allows to combine powerful Backbone.js with React.js views.",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "backbone",
+    "react"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "build",
+    "components"
+  ]
+}
