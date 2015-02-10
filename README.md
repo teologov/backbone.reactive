@@ -32,3 +32,8 @@ define(["react", "backbone", "backbone.reactive"], function(React, Backbone, Rea
   React.render(view, renderTarget);
 
 ```
+
+### How to install
+This package can be installed both, via `npm` or `bower`.
+
+Please, use `npm install --save backbone.reactive` for `npm`, or `bower install --save backbone.reactive` for `bower` package manager.
