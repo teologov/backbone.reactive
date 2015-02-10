@@ -8,15 +8,32 @@ var Reactive = require("../backbone.reactive.js");
 var React = require("react");
 
 
-var view = new Reactive({
+var modelView = new Reactive({
     render: function() {
         return (
             <div>
-                <span>{this.getModel().get('name')}</span>
+                <span className="getModel">{this.getModel().get('name')}</span>
+                <span className="props">{this.props.model.get('surname')}</span>
+            </div>
+        );
+    }
+});
+
+var collectionView = new Reactive({
+    render: function() {
+        var singers = this.props.collection.map(function(model) {
+            return <div className="singer">{model.get("name")} {model.get("surname")}</div>
+        });
+        return (
+            <div>
+                <div className="singers">{ singers }</div>
             </div>
         );
     }
 });
 
 
-module.exports = view;
+module.exports = {
+    modelView: modelView,
+    collectionView: collectionView
+};

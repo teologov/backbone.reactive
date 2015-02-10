@@ -98,7 +98,7 @@ describe("Testing Backbone.Reactive Plugin", function() {
 
     describe("Testing Backbone.Reactive Plugin View", function() {
 
-        var component, renderTarget, renderedComponent, inputComponent, element, model;
+        var component, renderTarget, renderedComponent, domComponent, element, model;
 
         beforeEach(function(done) {
 
@@ -113,13 +113,26 @@ describe("Testing Backbone.Reactive Plugin", function() {
                 global.document = global.window.document;
                 global.navigator = global.window.navigator;
 
-                model = new Backbone.Model({name: "myName"});
-
                 React = require('react/addons');
                 TestUtils = React.addons.TestUtils;
+
+                done(err);
+            });
+        });
+
+        afterEach(function() {
+
+
+        });
+
+        describe("Testing Models", function() {
+
+            beforeEach(function() {
+
+                model = new Backbone.Model({name: "myName", surname: "mySurname"});
                 // Because we're not using "*.jsx" here, we need to wrap the component in a factory
                 // manually. See https://gist.github.com/sebmarkbage/ae327f2eda03bf165261
-                TestFactory = React.createFactory(TestView);
+                TestFactory = React.createFactory(TestView.modelView);
 
                 // create component
                 component = TestFactory({
@@ -130,43 +143,122 @@ describe("Testing Backbone.Reactive Plugin", function() {
 
                 renderedComponent = React.render(component, renderTarget);
 
-                // searching for <input> tag within rendered React component
-                // it throws an exception if not found
-                inputComponent = TestUtils.findRenderedDOMComponentWithTag(
+            });
+
+            afterEach(function() {
+
+                component = null;
+                renderTarget = null;
+                renderedComponent = null;
+                domComponent = null;
+                element = null;
+                model = null;
+
+            });
+
+            it("Should render model property received from model getter", function() {
+
+                domComponent = TestUtils.findRenderedDOMComponentWithClass(
                     renderedComponent,
-                    'span'
+                    "getModel"
                 );
 
-                element = inputComponent.getDOMNode();
+                element = domComponent.getDOMNode();
 
-                done(err);
+                assert.equal(element._localName, "span", "Span should be rendered");
+                assert.equal(element.textContent, "myName", "Model property should be reflected in the dom element");
+
+            });
+
+            it("Should render model property received from props", function() {
+
+                domComponent = TestUtils.findRenderedDOMComponentWithClass(
+                    renderedComponent,
+                    "props"
+                );
+
+                element = domComponent.getDOMNode();
+
+                assert.equal(element.textContent, "mySurname", "Model property should be reflected in the dom element");
+            });
+
+            it("Should update html on model change event", function() {
+
+                domComponent = TestUtils.findRenderedDOMComponentWithClass(
+                    renderedComponent,
+                    "getModel"
+                );
+
+                element = domComponent.getDOMNode();
+
+                model.set("name", "Andrew");
+
+                assert.equal(element.textContent, "Andrew", "Model change should be reflected in the dom element");
+
+            });
+
+            it("Should not change html on silent model change", function() {
+
+                var element = TestUtils.findRenderedDOMComponentWithClass(
+                    renderedComponent,
+                    "props"
+                ).getDOMNode();
+
+                model.set("surname", "Teologov", {silent: true});
+
+                assert.equal(element.textContent, "mySurname", "Dom node text content should not be changed");
+
             });
         });
 
-        afterEach(function() {
+        describe("Testing Collections", function() {
 
-            component = null;
-            renderTarget = null;
-            renderedComponent = null;
-            inputComponent = null;
-            element = null;
-            model = null;
+            var collection;
+
+            beforeEach(function() {
+
+                collection = new Backbone.Collection([{name: "David", surname: "Gilmour"}, {name: "Paul", surname: "McCartney"}]);
+                // Because we're not using "*.jsx" here, we need to wrap the component in a factory
+                // manually. See https://gist.github.com/sebmarkbage/ae327f2eda03bf165261
+                TestFactory = React.createFactory(TestView.collectionView);
+
+                // create component
+                component = TestFactory({
+                    collection: collection
+                });
+
+                renderTarget = global.document.getElementsByTagName('body')[0];
+
+                renderedComponent = React.render(component, renderTarget);
+
+            });
+
+            afterEach(function() {
+
+                component = null;
+                renderTarget = null;
+                renderedComponent = null;
+                domComponent = null;
+                element = null;
+                model = null;
+
+            });
+
+            it("Should render collection", function() {
+
+                var singers = TestUtils.scryRenderedDOMComponentsWithClass(
+                    renderedComponent,
+                    "singer"
+                );
+
+                assert.equal(singers.length, 2, "All models should be rendered");
+
+                assert.equal(singers[0].getDOMNode().textContent, "David Gilmour", "Text content should be correct");
+
+            });
+
 
         });
-
-        it("Should render checkbox input", function() {
-
-            assert.equal(element._localName, "span", "Span should be rendered");
-
-        });
-
-        it("Should update html on model change event", function() {
-
-            model.set("name", "Andrew");
-
-            assert.equal(element.textContent, "Andrew", "Model change should be reflected in the dom element");
-
-        })
 
     });
 
